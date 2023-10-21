@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Dragon flights</string>
+
+    <string name="departure_title">DEPARTURE</string>
+    <string name="return_title">RETURN</string>
+    <string name="best_option">Genius deal!</string>
+    <string name="filter_title">Filter by price</string>
+    <string name="filter_range">Price from: € %1$d to € %2$d</string>
+    <string name="loading_rides">Looking the best dragons to flight</string>
+</resources>
