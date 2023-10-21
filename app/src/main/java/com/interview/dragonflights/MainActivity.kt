@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.interview.dragonflights.data.model.DragonRide
 import com.interview.dragonflights.data.model.Flight
+import com.interview.dragonflights.ui.FlightsSimpleViewModel
 import com.interview.dragonflights.ui.FlightsViewModel
 import com.interview.dragonflights.ui.theme.DragonFlightsTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,9 +42,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HomeDragonRides()
+                    SimpleDragonFlights()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun SimpleDragonFlights(){
+    // Creo la instancia del view model
+    val flightsSimpleViewModel: FlightsSimpleViewModel = viewModel()
+    // Creo una variable para los vuelos que lleguen desde el viewModel
+    // Estableciendo el observeAsState para que "reaccione" y cambie el UI cargando el resultado
+    val flights by flightsSimpleViewModel.flights.observeAsState(listOf())
+
+    LazyColumn {
+        items(flights) {dragonRide ->
+            // Por cada dragonRide en flights, cargo el item correspondiente
+            DragonRideItem(dragonRide = dragonRide)
         }
     }
 }
@@ -135,7 +153,7 @@ fun DragonRidesItem(dragonRideKey: String, dragonRides: List<DragonRide>) {
 @Composable
 fun DragonRideItem(
     dragonRide: DragonRide,
-    isBestOption: Boolean
+    isBestOption: Boolean = false
 ) {
     val borderModifier =
         if (isBestOption) Modifier.border(2.dp, MaterialTheme.colors.primary) else Modifier
